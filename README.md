@@ -1,2 +1,2 @@
 # snowboard-bum-alert
-need to know everyday for some reason what the conditions are like
+want my forecast like a snowboard person would give it to me
