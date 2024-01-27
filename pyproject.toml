@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "snowboard-bum-alert"
+version = "0.1.0"
+description = ""
+authors = ["Wes Stone <wesstone@vt.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+bs4 = "^0.0.2"
+requests = "^2.31.0"
+langchain = "^0.1.4"
+openai = "^1.10.0"
+langchain-openai = "^0.0.5"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
