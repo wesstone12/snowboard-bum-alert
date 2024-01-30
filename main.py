@@ -92,7 +92,7 @@ def send_email(message):
     try:
         with smtplib.SMTP_SSL(smtp_server, smtp_port, context=context) as server:
             server.login(username, password)  # Log in to the SMTP server
-            server.sendmail(sender_email, 'maddy.marietta@gmail.com', msg.as_string())  # Send the email
+            server.sendmail(sender_email, username, msg.as_string())  # Send the email
         print("Email sent successfully!")
     except Exception as e:
         print(f"Failed to send email: {e}")
