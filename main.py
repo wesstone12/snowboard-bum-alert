@@ -18,6 +18,8 @@ resort_url_map_point_forecast = {
         'Mission Ridge':'https://forecast.weather.gov/MapClick.php?lat=47.3022&lon=-120.3925&unit=0&lg=english&FcstType=text&TextType=1'
     }
 
+
+
 def get_response(url):
     response = requests.get(url)
 
@@ -52,7 +54,7 @@ def get_response(url):
 def langchain(responses):
     prompt = PromptTemplate(
     input_variables=['responses'],
-    template = '''Tell me about the forecast, but talk like a snowboard bum. I wanna know about the weather
+    template = '''Tell me about the forecast, but talk like a mega snowboard bum. I wanna know about the weather
     at Stevens Pass, Snoqualmie, Crystal, Mt. Baker, and Mission Ridge. 'resort':'forecast' so it will be easy to do
      a quick scan.
      
@@ -61,7 +63,7 @@ def langchain(responses):
     ***TASK***: Write a summary of the forecast for each resort. Talk like a snowboard bum. Be funny and entertaining, but accurate. Be concise.
      
      ''')
-
+        
     llm = OpenAI(temperature=.7, max_tokens = 1000)
     chain = LLMChain(llm=llm, prompt=prompt)
 
@@ -90,7 +92,7 @@ def send_email(message):
     try:
         with smtplib.SMTP_SSL(smtp_server, smtp_port, context=context) as server:
             server.login(username, password)  # Log in to the SMTP server
-            server.sendmail(sender_email, receiver_email, msg.as_string())  # Send the email
+            server.sendmail(sender_email, 'maddy.marietta@gmail.com', msg.as_string())  # Send the email
         print("Email sent successfully!")
     except Exception as e:
         print(f"Failed to send email: {e}")
@@ -105,7 +107,7 @@ def main():
         responses.append({resort:res})
     # print(responses)s
     res = langchain(responses)
-    # print(res) 
+    print(res) 
     send_email(res)
 
     
