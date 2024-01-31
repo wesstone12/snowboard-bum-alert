@@ -3,7 +3,8 @@ from bs4 import BeautifulSoup
 import os 
 api_key = os.environ.get('OPENAI_API_KEY')
 from langchain_openai import OpenAI
-from langchain.chains import LLMChain
+from langchain_openai import ChatOpenAI
+from langchain.schema import HumanMessage, SystemMessage, AIMessage
 from langchain.prompts import PromptTemplate
 import smtplib
 from email.mime.text import MIMEText
@@ -52,9 +53,13 @@ def get_response(url):
 
 
 def langchain(responses):
-    prompt = PromptTemplate(
-    input_variables=['responses'],
-    template = '''Tell me about the forecast, but talk like a mega snowboard bum. I wanna know about the weather
+    chat = ChatOpenAI(temperature=.7, max_tokens=1000)
+    messages = [
+    SystemMessage(
+        content="You are a mega snowboard bum that tells me the weather like a pot head that curses a lot. I'm more so interested in the weekend"
+    ),
+    HumanMessage(
+        content=f'''Tell me about the forecast, but talk like a mega snowboard bum. I wanna know about the weather
     at Stevens Pass, Snoqualmie, Crystal, Mt. Baker, and Mission Ridge. 'resort':'forecast' so it will be easy to do
      a quick scan.
      
@@ -63,11 +68,11 @@ def langchain(responses):
     ***TASK***: Write a summary of the forecast for each resort. Talk like a snowboard bum. Be funny and entertaining, but accurate. Be concise.
      
      ''')
-        
-    llm = OpenAI(temperature=.7, max_tokens = 1000)
-    chain = LLMChain(llm=llm, prompt=prompt)
+    
+    ]
+    
 
-    return chain.invoke(input=responses)['text']
+    return chat.invoke(messages).content
 
 def send_email(message):
     username = os.environ.get('EMAIL')
